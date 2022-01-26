@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const Wallet = require('../wallet');
 const TransactionPool = require('../wallet/transaction-pool');
 
+const path=require('path');
+images = [{image:"E:\EMatdaan\public\images\voting.jpg"}];
+
 //get the port from the user or set the default port
 const HTTP_PORT = process.env.HTTP_PORT || 3001;
 
@@ -14,6 +17,13 @@ const app  = express();
 
 //using the blody parser middleware
 app.use(bodyParser.json());
+
+app.set('views','./views');
+app.set('view engine', 'ejs');
+
+app.use(express.static(path.join(__dirname,'public')));
+
+
 
 // create a new blockchain instance
 const blockchain = new Blockchain();
@@ -32,6 +42,10 @@ const miner = new Miner(
     wallet,
     p2pserver
 );
+
+app.get('/',(req,res) => {
+    res.render('index', {images: images})
+})
 
 //api to get the blocks
 app.get('/blocks',(req,res)=>{

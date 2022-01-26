@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-matdaan</title>
+</head>
+<body background="/images/voting.jpg">
+    <center>
+    <h1>E-matdaan : Blockchain based E-voting System</h1>
+    <form id="Voting" method="POST" action="/index">
+        <label  style="font-size: 20px" for="user">Enter your Aadhar no.  </label>
+        <input style="font-size: 18px" type="text" name="user" placeholder="Enter your Aadhar no.">
+        <br><br>
+        <label style="font-size: 20px" for="key">Enter your private key  </label>
+        <input style="font-size: 18px" type="text" name="key" placeholder="Enter your Private Key">
+        <br><br>
+        <label style="font-size: 20px" for="candidate">Who do you want to vote?  </label>
+        <select style="font-size: 18px" name="candidate" id="candidate">
+            <option value="candidate">Select Candidate</option>
+            <option value="shreyas">Shreyas</option>
+            <option value="niharika">Niharika</option>
+            <option value="shivani">Shivani</option>
+            <option value="satiram">Satiram</option>
+        </select><br><br>
+        <input style="font-size: 20px" type="submit" value="Submit" />
+    </form>
+    
+</center>
+
+</body>
+</html>
