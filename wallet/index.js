@@ -9,10 +9,10 @@ class Wallet{
      * and the private key pair
      * and the balance
      */
-    constructor(){
+    constructor(keyPair){
         this.balance = INITIAL_BALANCE;
-        this.keyPair = ChainUtil.genKeyPair();
-        this.publicKey = this.keyPair.getPublic().encode('hex');
+        this.keyPair = keyPair;
+        this.publicKey = keyPair.getPublic().encode('hex');
     }
 
     toString(){
@@ -51,7 +51,8 @@ class Wallet{
     }
 
     static blockchainWallet(){
-        const blockchainWallet = new this();
+        const key=ChainUtil.genKeyPair();
+        const blockchainWallet = new this(key);
         blockchainWallet.address = 'blockchain-wallet';
         return blockchainWallet;
     }

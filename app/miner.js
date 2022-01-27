@@ -17,7 +17,8 @@ class Miner{
          * 3. synchronize the chain and include new block
          * 4. clear the transaction pool to remove confirmed transactions
          */
-         const validTransactions = this.transactionPool.validTransactions();
+        console.log('yo');
+        const validTransactions = this.transactionPool.validTransactions();
 
          // include reward for the miner in the valid transactions array
          validTransactions.push(Transaction.rewardTransaction(this.wallet,Wallet.blockchainWallet()));

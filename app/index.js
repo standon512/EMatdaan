@@ -7,6 +7,7 @@ const Wallet = require('../wallet');
 const TransactionPool = require('../wallet/transaction-pool');
 
 const path=require('path');
+const ChainUtil = require('../chain-util');
 images = [{image:"E:\EMatdaan\public\images\voting.jpg"}];
 
 //get the port from the user or set the default port
@@ -17,17 +18,18 @@ const app  = express();
 
 //using the blody parser middleware
 app.use(bodyParser.json());
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 
 app.set('views','./views');
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname,'public')));
 
-
-
 // create a new blockchain instance
 const blockchain = new Blockchain();
-const wallet = new Wallet();
+const key1=ChainUtil.genKeyPair();
+const wallet = new Wallet(key1);
 // create a new transaction pool which will be later
 // decentralized and synchronized using the peer to peer server
 const transactionPool = new TransactionPool();
@@ -46,6 +48,31 @@ const miner = new Miner(
 app.get('/',(req,res) => {
     res.render('index', {images: images})
 })
+
+app.post('/',urlencodedParser, (req,res)=>{
+    console.log(req.body);
+    const { key, candidate } = req.body;
+    const myKey=ChainUtil.keyFromPrivate(key);
+    const senderWallet= new Wallet(myKey);
+    
+    const transaction = senderWallet.createTransaction(
+             candidate, 1, blockchain, transactionPool);
+                                      
+    p2pserver.broadcastTransaction(transaction);
+    res.redirect('/transactions');
+});
+
+app.post('/index',urlencodedParser, (req,res)=>{
+    const { key, candidate } = req.body;
+    const myKey=ChainUtil.keyFromPrivate(key);
+    const senderWallet= new Wallet(myKey);
+    
+    const transaction = senderWallet.createTransaction(
+             candidate, 1, blockchain, transactionPool);
+                                      
+    p2pserver.broadcastTransaction(transaction);
+    res.redirect('/transactions');
+});
 
 //api to get the blocks
 app.get('/blocks',(req,res)=>{

@@ -24,6 +24,10 @@ class ChainUtil{
         return ec.keyFromPublic(publicKey,'hex').verify(dataHash,signature);
         }
 
+    static keyFromPrivate(privateKey){
+        return ec.keyFromPrivate(privateKey);
+    }
+
 
 }
 
