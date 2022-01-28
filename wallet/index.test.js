@@ -3,15 +3,17 @@
 const Wallet = require('./index');
 const TransactionPool = require('./transaction-pool');
 const Blockchain = require('../blockchain');
+const ChainUtil = require('../chain-util');
 const { INITIAL_BALANCE } = require('../config');
 
 describe('Wallet',()=>{
     let wallet,transactionPool,blockchain;
-    wallet = new Wallet();
+    const key=ChainUtil.genKeyPair();
+    wallet = new Wallet(key);
     transactionPool = new TransactionPool();
 
     beforeEach(()=>{
-        wallet = new Wallet();
+        wallet = new Wallet(key);
         transactionPool = new TransactionPool();
         blockchain = new Blockchain();
     });
@@ -54,7 +56,8 @@ describe('Wallet',()=>{
         let addBalance,repeatAdd,senderWallet;
 
         beforeEach(()=>{
-            senderWallet = new Wallet();
+            const key1=ChainUtil.genKeyPair();
+            senderWallet = new Wallet(key1);
             addBalance = 100;
             repeatAdd = 3;
             for(let i=0;i<repeatAdd;i++){
@@ -89,7 +92,7 @@ describe('Wallet',()=>{
                     blockchain.addBlock(transactionPool.transactions);
                 });
 
-                it('calculate the recipient balance only usinf transactions since its most recent one',()=>{
+                it('calculate the recipient balance only using transactions since its most recent one',()=>{
                     expect(wallet.calculateBalance(blockchain)).toEqual(recipientBalance-subtractBalance + addBalance);
                 })
             })

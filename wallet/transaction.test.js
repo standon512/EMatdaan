@@ -1,15 +1,18 @@
 const Transaction = require('./transaction');
 const Wallet = require('./index');
+const ChainUtil = require('../chain-util');
 const {MINING_REWARD} = require('../config');
 
 
 describe('Transaction',()=>{
 
     let transaction,wallet, recipient, amount;
+    const key=ChainUtil.genKeyPair();
 
 
     beforeEach(()=>{
-        wallet = new Wallet();
+
+        wallet = new Wallet(key);
         amount = 50;
         recipient = 'r3c1p13nt';
         transaction = Transaction.newTransaction(wallet,recipient,amount);

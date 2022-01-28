@@ -1,16 +1,17 @@
 const TransactionPool = require('./transaction-pool');
-const Transaction = require('./transaction');
 const Wallet = require('./index');
 const Blockchain = require('../blockchain');
+const ChainUtil = require('../chain-util');
 
 describe('Transaction Pool',()=>{
 
     let transactionPool, wallet, transaction,blockchain;
+    const key=ChainUtil.genKeyPair();
 
     beforeEach(()=>{
 
         transactionPool = new TransactionPool();
-        wallet = new Wallet();
+        wallet = new Wallet(key);
         blockchain = new Blockchain();
         // transaction = Transaction.newTransaction(wallet,'r4nd-addr355',30);
         // transactionPool.updateOrAddTransaction(transaction);
@@ -43,7 +44,8 @@ describe('Transaction Pool',()=>{
 
             // creating new transactions with corrupted transactions
             for (let i = 0;i<6;i++){
-                wallet = new Wallet();
+                const key1=ChainUtil.genKeyPair();
+                wallet = new Wallet(key1);
                 transaction = wallet.createTransaction('r4nd-4ddr355',30,blockchain,transactionPool);
                 if(i&1){
                     transaction.input.amount = 999999;
